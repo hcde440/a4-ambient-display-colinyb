@@ -12,7 +12,7 @@
 
 //wifi and pubsub setup
 #define wifi_ssid "CYB"
-#define wifi_password "m1ck3yM0us3"
+#define wifi_password ""
 WiFiClient espClient;
 PubSubClient mqtt(espClient);
 char mac[6]; //unique id

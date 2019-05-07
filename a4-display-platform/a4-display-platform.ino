@@ -3,7 +3,7 @@
 #include <ArduinoJson.h> //json library integration for working with json
 
 //wifi and pubsub setup
-#define wifi_ssid ""
+#define wifi_ssid "CYB"
 #define wifi_password ""
 WiFiClient espClient;
 PubSubClient mqtt(espClient);
@@ -31,6 +31,7 @@ void setup() {
   // setting up the leds
   pinMode(warningLEDs, OUTPUT);
   pinMode(requestShutdown, OUTPUT);
+  pinMode(LED_BUILTIN, OUTPUT); //for signifying an incoming message
 
   setup_wifi(); //start wifi
   mqtt.setServer(mqtt_server, 1883); //start mqtt server
@@ -92,6 +93,10 @@ void callback(char* topic, byte* payload, unsigned int length) {
   Serial.print("Message arrived [");
   Serial.print(topic); //'topic' refers to the incoming topic name, the 1st argument of the callback function
   Serial.println("] ");
+
+  digitalWrite(LED_BUILTIN, LOW);
+  delay(500);
+  digitalWrite(LED_BUILTIN, HIGH);
 
   DynamicJsonBuffer  jsonBuffer; //creating DJB instance named jsonBuffer
   JsonObject& root = jsonBuffer.parseObject(payload); //parse it!
